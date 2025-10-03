@@ -17,6 +17,7 @@ public class StudentController {
 
     @GetMapping("/students")
     public List<StudentDto> getAllStudents(){
+        System.out.println("ka hal chal");
         return studentService.getAllStudents();
     }
 }
