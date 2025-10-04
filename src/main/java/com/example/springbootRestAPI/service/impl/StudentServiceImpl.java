@@ -38,4 +38,33 @@ public class StudentServiceImpl implements StudentService {
 
         return studentDto;
     }
+
+    @Override
+    public void deleteStudentById(Long id) {
+        studentRepository.deleteById(id);
+    }
+
+    @Override
+    public StudentDto updateStudent(Long id, AddStudentRequestDto addStudentRequestDto) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id " + id));
+
+        // Update fields
+        student.setName(addStudentRequestDto.getName());
+        student.setEmail(addStudentRequestDto.getEmail());
+        student.setBranch(addStudentRequestDto.getBranch());
+
+        // Save updated student
+        Student updatedStudent = studentRepository.save(student);
+
+        // Convert entity -> DTO (assuming you have a mapper or constructor)
+        return new StudentDto(
+                updatedStudent.getId(),
+                updatedStudent.getName(),
+                updatedStudent.getEmail(),
+                updatedStudent.getBranch()
+        );
+
+
+    }
 }
